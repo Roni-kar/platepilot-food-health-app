@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlatePilot | Smart Indian Food & Health Coach</title>
+    <meta
+      name="description"
+      content="PlatePilot is a smart Indian food and health assistant that helps busy people make better meal choices using context like hunger, cravings, fasting, hydration, time, and budget."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script id="google-charts-loader" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <noscript>
+      <div class="runtime-banner runtime-banner-visible">
+        JavaScript is required to run PlatePilot. Please open the hosted version in a modern browser with JavaScript enabled.
+      </div>
+    </noscript>
+    <div class="runtime-banner" id="runtime-banner" role="status" aria-live="polite"></div>
+
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Food & Health Challenge Submission</p>
+          <h1>PlatePilot helps you choose a better next meal in under 30 seconds.</h1>
+          <p class="hero-text">
+            Built for busy Indian students and young professionals using real context like hunger, cravings, fasting,
+            hydration, time, and budget.
+          </p>
+          <div class="hero-pills" aria-label="Project strengths">
+            <span>Indian food context</span>
+            <span>Fasting-aware assistant</span>
+            <span>Google Maps + Charts + Calendar</span>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <p class="hero-card-label">How To Use</p>
+          <h2>3 easy steps</h2>
+          <ol class="simple-steps">
+            <li>Pick a quick scenario or fill your situation.</li>
+            <li>If you are fasting, choose the fast type first.</li>
+            <li>Tap `Generate` and follow the action plan.</li>
+          </ol>
+          <p class="hero-footnote">Works well for dal chawal, roti sabzi, poha, idli, paratha, biryani, and fasting days too.</p>
+        </aside>
+      </header>
+
+      <main class="grid-layout">
+        <section class="panel form-panel" aria-labelledby="coach-title">
+          <div class="section-heading">
+            <p class="mini-label">Smart meal coach</p>
+            <h2 id="coach-title">Tell PlatePilot what your day looks like</h2>
+          </div>
+
+          <form id="coach-form">
+            <div class="guide-inline">
+              <strong>Simple use:</strong>
+              <span>Choose your situation, add what you feel like eating, then tap `Generate my next food decision`.</span>
+            </div>
+
+            <label class="full-span fasting-field">
+              Fasting today
+              <select name="fasting" id="fasting-select">
+                <option value="none" selected>No Fast</option>
+                <option value="navratri">Navratri</option>
+                <option value="ekadashi">Ekadashi</option>
+                <option value="ramadan">Ramadan</option>
+                <option value="intermittent">Intermittent</option>
+              </select>
+            </label>
+
+            <div class="fasting-banner hidden" id="fasting-banner" aria-live="polite">
+              <strong id="fasting-title"></strong>
+              <p id="fasting-copy"></p>
+              <div class="allowed-foods" id="allowed-foods"></div>
+            </div>
+
+            <div class="scenario-strip" id="scenario-strip" aria-label="Quick demo scenarios"></div>
+
+            <label class="full-span food-intent-field">
+              What are you planning to eat?
+              <input
+                id="current-food"
+                type="text"
+                name="currentFood"
+                placeholder="Dal chawal, 2 roti + sabzi, poha, idli sambar, paratha..."
+              />
+            </label>
+
+            <div class="quick-food-row" id="quick-food-row" aria-label="Quick food examples"></div>
+
+            <div class="field-grid">
+              <label>
+                Main goal
+                <select name="goal">
+                  <option value="energy">Stable energy</option>
+                  <option value="weight">Weight management</option>
+                  <option value="muscle">Protein / muscle support</option>
+                  <option value="focus">Focus & productivity</option>
+                </select>
+              </label>
+
+              <label>
+                Eating style
+                <select name="diet">
+                  <option value="any">No restriction</option>
+                  <option value="vegetarian">Vegetarian</option>
+                  <option value="vegan">Vegan</option>
+                  <option value="high-protein">High protein</option>
+                </select>
+              </label>
+
+              <label>
+                Budget
+                <select name="budget">
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </label>
+
+              <label>
+                Time available
+                <select name="time">
+                  <option value="5">5 minutes</option>
+                  <option value="15" selected>15 minutes</option>
+                  <option value="30">30+ minutes</option>
+                </select>
+              </label>
+
+              <label>
+                Cooking access
+                <select name="kitchen">
+                  <option value="none">No kitchen</option>
+                  <option value="microwave">Microwave / kettle</option>
+                  <option value="full">Full kitchen</option>
+                </select>
+              </label>
+
+              <label>
+                Activity today
+                <select name="activity">
+                  <option value="low">Mostly sitting</option>
+                  <option value="moderate" selected>Moderately active</option>
+                  <option value="high">Workout / highly active</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="slider-grid">
+              <label>
+                <span class="range-title">
+                  <span>Hunger</span>
+                  <output for="hunger-range" data-output="hunger">3</output>
+                </span>
+                <input id="hunger-range" type="range" name="hunger" min="1" max="5" value="3" />
+                <span class="range-labels"><span>Low</span><span>High</span></span>
+              </label>
+
+              <label>
+                <span class="range-title">
+                  <span>Energy</span>
+                  <output for="energy-range" data-output="energy">3</output>
+                </span>
+                <input id="energy-range" type="range" name="energy" min="1" max="5" value="3" />
+                <span class="range-labels"><span>Drained</span><span>Strong</span></span>
+              </label>
+
+              <label>
+                <span class="range-title">
+                  <span>Sugar craving</span>
+                  <output for="craving-range" data-output="craving">2</output>
+                </span>
+                <input id="craving-range" type="range" name="craving" min="1" max="5" value="2" />
+                <span class="range-labels"><span>None</span><span>Strong</span></span>
+              </label>
+
+              <label>
+                <span class="range-title">
+                  <span>Water so far</span>
+                  <output for="water-range" data-output="water">4</output>
+                </span>
+                <input id="water-range" type="range" name="water" min="0" max="10" value="4" />
+                <span class="range-labels"><span>0 cups</span><span>10 cups</span></span>
+              </label>
+            </div>
+
+            <label class="note-field full-span">
+              What usually trips you up?
+              <textarea
+                name="challenge"
+                rows="3"
+                placeholder="Example: I end up ordering samosa and cold drinks when I get tired after classes."
+              ></textarea>
+            </label>
+
+            <div class="button-row">
+              <button type="submit" class="primary-btn">Generate my next food decision</button>
+              <button type="button" class="ghost-btn" id="demo-btn">Load a realistic demo</button>
+            </div>
+            <p class="legal-note">PlatePilot supports healthier choices, but it is not a medical diagnosis tool.</p>
+          </form>
+        </section>
+
+        <section class="panel results-panel" aria-labelledby="results-title">
+          <div class="section-heading">
+            <p class="mini-label">Assistant output</p>
+            <h2 id="results-title">Your next best move</h2>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            <div class="empty-guide">
+              <h3>How to use PlatePilot</h3>
+              <p>1. Tap a scenario or fill the form.</p>
+              <p>2. If you are fasting, choose the fast type first.</p>
+              <p>3. Tap `Generate` to get your meal recommendation and action plan.</p>
+            </div>
+          </div>
+
+          <div id="results" class="hidden">
+            <div class="result-hero">
+              <div>
+                <p class="result-tag" id="result-mode"></p>
+                <h3 id="result-title"></h3>
+                <p id="result-summary"></p>
+                <p class="priority-signal" id="priority-signal"></p>
+              </div>
+              <div class="score-ring">
+                <span id="wellness-score">0</span>
+                <small>Wellness fit</small>
+              </div>
+            </div>
+
+            <div class="metric-grid" id="metric-grid"></div>
+
+            <div class="content-grid">
+              <article class="insight-card">
+                <h4>Why this choice fits</h4>
+                <ul id="rationale-list"></ul>
+              </article>
+
+              <article class="insight-card">
+                <h4>Habit cue</h4>
+                <p id="habit-tip"></p>
+                <p class="helper-text" id="warning-text"></p>
+              </article>
+            </div>
+
+            <article class="insight-card">
+              <h4>Action plan</h4>
+              <div class="plan-grid">
+                <div>
+                  <span class="plan-label">Do now</span>
+                  <p id="plan-now"></p>
+                </div>
+                <div>
+                  <span class="plan-label">If unavailable</span>
+                  <p id="plan-fallback"></p>
+                </div>
+                <div>
+                  <span class="plan-label">Next prep</span>
+                  <p id="plan-prep"></p>
+                </div>
+              </div>
+            </article>
+
+            <article class="insight-card">
+              <h4>Backup choices</h4>
+              <div class="alternate-list" id="alternate-list"></div>
+            </article>
+
+            <div class="action-row">
+              <a id="maps-link" class="action-link" target="_blank" rel="noreferrer">Open healthy spots in Google Maps</a>
+              <a id="grocery-link" class="action-link" target="_blank" rel="noreferrer">Find groceries in Google Maps</a>
+              <a id="calendar-link" class="action-link" target="_blank" rel="noreferrer">Create a Google Calendar reminder</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="history-title">
+          <div class="section-heading split-heading">
+            <div>
+              <p class="mini-label">Behavior patterns</p>
+              <h2 id="history-title">Your trendline over recent choices</h2>
+            </div>
+            <button type="button" class="ghost-btn small-btn" id="clear-history-btn">Clear history</button>
+          </div>
+          <p class="section-text">
+            PlatePilot saves decisions in local storage and visualizes your trend with Google Charts so the assistant can
+            feel dynamic over time instead of one-and-done.
+          </p>
+          <div class="trend-insight" id="trend-insight">Your recent recommendations will generate a pattern insight here.</div>
+          <div id="chart" class="chart-box" role="img" aria-label="Chart showing recent wellness-fit scores"></div>
+          <div id="history-list" class="history-list"></div>
+        </section>
+
+        <section class="panel logic-panel" aria-labelledby="logic-title">
+          <div class="section-heading">
+            <p class="mini-label">Decision logic</p>
+            <h2 id="logic-title">What makes the assistant smart</h2>
+          </div>
+          <div class="logic-grid">
+            <article>
+              <h3>1. Reads your real context</h3>
+              <p>Goal, budget, time, energy, cravings, hydration, fasting, and cooking access shape the scoring.</p>
+            </article>
+            <article>
+              <h3>2. Uses Indian food context</h3>
+              <p>The app understands familiar choices like dal chawal, roti sabzi, poha, idli, paratha, biryani, and fast-safe meals.</p>
+            </article>
+            <article>
+              <h3>3. Turns advice into action</h3>
+              <p>Google Charts shows progress, Google Maps helps with nearby food discovery, and Google Calendar supports follow-through.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+    <script>
+      window.setTimeout(function () {
+        if (!window.__platePilotBooted) {
+          var banner = document.getElementById("runtime-banner");
+          if (banner) {
+            banner.textContent =
+              "PlatePilot is still loading. If this page was opened from local files, use the cloud link or run a local server.";
+            banner.classList.add("runtime-banner-visible");
+          }
+        }
+      }, 2500);
+    </script>
+  </body>
+</html>
