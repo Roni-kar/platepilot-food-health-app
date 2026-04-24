@@ -1,7 +1,7 @@
 # PlatePilot
 
 PlatePilot is a smart Food & Health web app built for hackathon judging: it helps students and early professionals make healthier meal decisions in stressful real-world moments, not idealized ones.
-
+**Live Link:** [https://food-and-health-app-a8b76.web.app](https://food-and-health-app-a8b76.web.app)
 ## Chosen Vertical
 
 Food & Health App
